@@ -10,7 +10,7 @@
 
   <!-- Total Stars -->
   <a href="https://github.com/joshuathadi?tab=repositories&sort=stargazers" target="_blank">
-    <img alt="Total Stars" title="Total stars on GitHub" src="https://img.shields.io/github/stars/i84s?style=for-the-badge&label=Stars&color=bf616a&logo=github" /></a>
+    
 
  
   
