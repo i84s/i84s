@@ -8,8 +8,7 @@
     
 
 
-  <!-- Total Stars -->
-  <a href="https://github.com/joshuathadi?tab=repositories&sort=stargazers" target="_blank">
+
     
 
  
