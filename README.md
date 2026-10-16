@@ -1,7 +1,5 @@
 <img width="1000" height="450" alt="35f5911b6761ecd292e0ee9b8596b69f" src="https://github.com/user-attachments/assets/af800d86-c992-4160-9c6a-31fa33ac29f7" />
 
-<img width="1000" height="450" alt="35f5911b6761ecd292e0ee9b8596b69f" src="https://github.com/user-attachments/assets/b93a5c18-a0da-4e1e-8e7a-a783fc89c0db" />
-
 
 <div align="center">
   <!-- Profile Views -->
