@@ -63,9 +63,7 @@ Always learning & improving
   <img src="https://skillicons.dev/icons?i=bootstrap,html,css,vscode,github,git,notion,figma,debian,gitlab" /><br>
   <img src="https://skillicons.dev/icons?i=c,bash,kali,arch,ubuntu,python,javascript,mysql,react,nodejs" /><br>
 
-![github-user-contribution (2)](https://github.com/user-attachments/assets/7f1b3187-6df4-4484-889f-21d1745a1fb7)
 
-  
 
 <p align="center">
   
