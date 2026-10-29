@@ -78,7 +78,7 @@ bouncing. There is no elastic, spin or shake anywhere.
    explodes, then each layer lifts in turn as its panel crossfades, tracked by
    a progress rail. On small screens and with reduced motion it becomes a
    plain vertical list.
-6. **Index.** A material preview follows the cursor and wipes between rows.
+6. **Index.** Hovering a row brings its name forward, fills its arrow and draws an accent rule beneath it.
 7. **Research.** Technical drawings draw themselves, the value-chain line is
    scrubbed and switches nodes on, and material studies drift at different
    depths.
