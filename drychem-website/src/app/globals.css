@@ -3,11 +3,11 @@
    ========================================================================== */
 
 :root {
-  /* ── Brand slots ───────────────────────────────────────────────────────
-     PROVISIONAL. drychem.com could not be accessed while this was built, so
-     these are NOT verified DRYCHEM colours. Replace with the official values
-     (see docs/BRAND-SLOTS.md). Every accent in the site derives from them. */
-  --brand-primary: #c8b38b;
+  /* ── Brand ─────────────────────────────────────────────────────────────
+     The teal of the IMC logo, measured from the supplied artwork (the logo's
+     green is #1e572c). Every accent in the site derives from it; see
+     docs/BRAND-SLOTS.md. */
+  --brand-primary: #158e87;
   --brand-primary-ink: #111313;
 
   /* ── Mineral neutrals (complementary, brand-independent) ── */
@@ -66,7 +66,8 @@
   --fg-faint: rgb(242 240 235 / 0.56); /* ≥ 4.5:1 on graphite for small text */
   --line: rgb(242 240 235 / 0.14);
   --line-strong: rgb(242 240 235 / 0.32);
-  --accent: var(--brand-primary);
+  /* Lifted slightly so accent text keeps AA contrast on raised dark panels too. */
+  --accent: color-mix(in srgb, var(--brand-primary) 80%, var(--plaster-50));
   --btn-bg: var(--plaster-50);
   --btn-fg: var(--graphite-900);
 }
@@ -79,8 +80,8 @@
   --fg-faint: rgb(17 19 19 / 0.6); /* ≥ 4.5:1 on plaster for small text */
   --line: rgb(17 19 19 / 0.13);
   --line-strong: rgb(17 19 19 / 0.3);
-  /* Darkened on light surfaces so accent text keeps AA contrast; re-check after setting the brand colour. */
-  --accent: color-mix(in srgb, var(--brand-primary) 46%, var(--graphite-900));
+  /* Darkened on light surfaces so accent text keeps AA contrast; re-check after changing the brand colour. */
+  --accent: color-mix(in srgb, var(--brand-primary) 62%, var(--graphite-900));
   --btn-bg: var(--graphite-900);
   --btn-fg: var(--plaster-50);
 }

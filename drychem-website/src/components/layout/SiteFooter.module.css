@@ -10,16 +10,20 @@
 .top {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 20px 40px;
   padding-bottom: clamp(48px, 6vw, 88px);
 }
 
 .logo {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
+  display: block;
+  width: min(100%, 460px);
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
 }
 
 .tagline {

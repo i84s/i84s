@@ -5,11 +5,13 @@ manufacturer of wall putty, tile adhesives, plasters, structural repair systems 
 coatings, and a toll and contract manufacturer for building-material brands.
 
 > **Before launch, read [`docs/BRAND-SLOTS.md`](docs/BRAND-SLOTS.md).**
-> drychem.com could not be reached from the environment this was built in, so the
-> official **logo, brand colours, typefaces and photography could not be verified**.
-> They sit in clearly marked, one-line-to-change slots. Company and product facts
-> were verified through DRYCHEM's own pages as indexed by search; each one is logged
-> with its source in [`docs/CONTENT-SOURCES.md`](docs/CONTENT-SOURCES.md).
+> The logo is the **IMC (Industrial Minerals Company (SFZ) L.L.C) artwork supplied
+> by the client**, and the accent colour is taken from it. The copy, company facts,
+> products and contact details are still **DRYCHEM's**: they were verified through
+> DRYCHEM's own pages as indexed by search (drychem.com itself could not be reached
+> from the build environment), and each one is logged with its source in
+> [`docs/CONTENT-SOURCES.md`](docs/CONTENT-SOURCES.md). Typefaces and photography are
+> provisional, in clearly marked slots.
 
 ## Quick start
 
@@ -52,7 +54,7 @@ The creative concept, design system and motion choreography are documented in
 src/
   app/                    routes, layout, global tokens (globals.css), fonts, sitemap/robots
   components/
-    brand/                BrandLogo (logo slot)
+    brand/                BrandLogo (IMC logo artwork)
     layout/               header (theme-aware, hide-on-scroll), mobile menu, footer
     motion/               preloader, page transitions, smooth scroll, cursor,
                           RevealText (SplitText), Reveal, MediaReveal, Counter
@@ -61,11 +63,12 @@ src/
     sections/solution/    solution page template
     contact/              contact page and inquiry form
     illustrations/        fine-line technical drawings
-  config/                 brand slots, site constants, navigation
+  config/                 brand (logo files, name), site constants, navigation
   content/                verified company facts, solutions and products (single source of truth)
-  generated/              build-time data: image manifest, export-route map
+  generated/              build-time data: image manifest, export-route map, logo sizes
   lib/                    gsap setup, motion tokens, scroll store, page-reveal signal, idle scheduler
-scripts/                  asset pipeline, preview server, QA
+brand-source/             the logo files as supplied by the client
+scripts/                  asset pipeline (materials, map, logo tracing), preview server, QA
 docs/                     brand slots, content sources, creative direction
 ```
 
@@ -96,6 +99,7 @@ The generated assets are committed, so a normal build needs neither Python nor n
 | `python3 scripts/render_materials.py [name…]` | Renders the material studies (seamless 2048² height fields lit by raking light) to `assets-src/materials/*.png`. Needs `numpy` and `Pillow`.                                    |
 | `node scripts/build-images.mjs`               | Encodes them to AVIF (640/1280/2048) and WebP (640/1280) in `public/media/materials/` and writes `src/generated/media.json` (sizes and placeholder colours).                    |
 | `npm run assets:map`                          | Builds the dot-matrix world map and export arcs (`public/media/world-dots.svg`, `src/generated/reach-map.json`) with d3-geo at build time, so no geo code ships to the browser. |
+| `python3 scripts/trace_logo.py`               | Vectorises the supplied logo files in `brand-source/` into colour and reversed SVGs plus the favicon in `public/brand/`. Needs `numpy`, `Pillow` and `potracer`.                |
 
 `npm run assets:materials` runs the first two in sequence. To use real photography,
 see `docs/BRAND-SLOTS.md` → Photography.
@@ -134,8 +138,8 @@ Results at hand-off, on a local static server with compression:
 
 |                                     | Performance | Accessibility | Best practices | SEO | Key metrics                       |
 | ----------------------------------- | ----------- | ------------- | -------------- | --- | --------------------------------- |
-| Lighthouse desktop                  | 94          | 100           | 100            | 100 | LCP 0.6 s · TBT 40 ms · CLS 0.001 |
-| Lighthouse mobile (4× CPU, slow 4G) | 72          | 100           | 100            | 100 | FCP 1.0 s · TBT 370 ms · CLS 0    |
+| Lighthouse desktop                  | 93          | 100           | 100            | 100 | LCP 0.8 s · TBT 70 ms · CLS 0.001 |
+| Lighthouse mobile (4× CPU, slow 4G) | 70          | 100           | 100            | 100 | FCP 1.0 s · TBT 410 ms · CLS 0    |
 
 axe-core reports 0 violations on all page types, with and without reduced motion.
 The homepage ships about 250 KB of JS and 12 KB of CSS (gzipped), plus 130 KB of fonts.
@@ -153,8 +157,13 @@ The homepage ships about 250 KB of JS and 12 KB of CSS (gzipped), plus 130 KB of
 
 ## Known limitations
 
-- **Brand identity not verified.** Logo, colours, typefaces and photography are
-  placeholders in brand slots (see above).
+- **Logo and content belong to different companies.** The logo is IMC's, as
+  supplied; the copy, facts, products, legal name and contact details are
+  DRYCHEM's. Replace one or the other before launch.
+- **Logo files are traced.** The SVGs were vectorised from the supplied JPEGs, and
+  the reversed versions for dark backgrounds were derived for this site. Swap in
+  official vector files and confirm the reversed treatment (see `docs/BRAND-SLOTS.md`).
+- **Typefaces** are provisional (`docs/BRAND-SLOTS.md` → Typefaces).
 - **Motion reference video.** `Horyx Studio.mp4` never reached the build environment,
   so the motion follows premium-studio conventions rather than a scene-by-scene
   analysis of that video. Everything is tunable in one place (`docs/CREATIVE-DIRECTION.md`).

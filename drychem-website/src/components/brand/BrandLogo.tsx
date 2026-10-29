@@ -1,31 +1,29 @@
-import { brand } from "@/config/brand";
+import { brand, type LogoVariant } from "@/config/brand";
 import styles from "./BrandLogo.module.css";
 
 type Props = {
-  /** Background the logo sits on — selects the reversed artwork when provided. */
+  /** The symbol alone, or a lockup with the company name. */
+  variant?: LogoVariant;
+  /** Background the logo sits on — "dark" selects the reversed artwork. */
   surface?: "light" | "dark";
+  loading?: "eager" | "lazy";
   className?: string;
 };
 
-/**
- * Logo slot. Renders the official artwork from `src/config/brand.ts` once it is
- * provided; until then it shows the company name as plain text (a placeholder,
- * deliberately not a designed mark).
- */
-export function BrandLogo({ surface = "dark", className }: Props) {
-  const asset = (surface === "dark" && brand.logoOnDark) || brand.logo;
-  const cls = [styles.logo, className].filter(Boolean).join(" ");
-
-  if (asset) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element -- static export, SVG logo
-      <img className={cls} src={asset.src} width={asset.width} height={asset.height} alt={brand.name} />
-    );
-  }
+/** The IMC logo, from the artwork configured in `src/config/brand.ts`. Size it with `className`. */
+export function BrandLogo({ variant = "mark", surface = "dark", loading, className }: Props) {
+  const { src, width, height } = brand.logo(variant, surface);
 
   return (
-    <span className={`${cls} ${styles.placeholder}`} data-logo-placeholder="">
-      {brand.name}
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element -- static export; vector artwork needs no optimisation
+    <img
+      className={[styles.logo, className].filter(Boolean).join(" ")}
+      src={src}
+      width={width}
+      height={height}
+      alt={brand.alt}
+      loading={loading}
+      decoding="async"
+    />
   );
 }

@@ -6,6 +6,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { markPageRevealed, resetPageRevealed } from "@/lib/reveal";
 import { lockScroll, scrollToTarget } from "@/lib/scroll";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import styles from "./TransitionProvider.module.css";
 
 type TransitionApi = {
@@ -126,7 +127,9 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       <div ref={curtainRef} className={styles.curtain} aria-hidden="true" data-theme="dark">
         <div className={styles.inner}>
           <span className={styles.brand}>
-            <span data-curtain-rise>DRYCHEM</span>
+            <span data-curtain-rise>
+              <BrandLogo surface="dark" />
+            </span>
           </span>
           <span className={styles.label}>
             <span data-curtain-rise ref={labelRef} />

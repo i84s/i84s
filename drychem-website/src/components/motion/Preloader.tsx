@@ -33,7 +33,7 @@ const fontsReady = (ms: number) =>
 
 /**
  * Opening sequence. First visit: a line of light draws across the screen, the
- * name rises above it and the two halves part to reveal the hero (~2.2 s).
+ * logo rises above it and the two halves part to reveal the hero (~2.2 s).
  * Repeat hard loads, and slow loads (the visitor has already waited): a short
  * split that only covers hydration. Reduced motion: a simple fade. The overlay is server-rendered so it covers the first paint.
  */

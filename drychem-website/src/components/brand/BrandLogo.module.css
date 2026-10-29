@@ -1,17 +1,5 @@
 .logo {
   display: block;
-  height: 22px;
   width: auto;
-}
-
-/* Text placeholder until the official logo file is supplied. */
-.placeholder {
-  height: auto;
-  font-family: var(--font-sans);
-  font-size: 19px;
-  font-weight: 700;
-  font-stretch: 112%;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  white-space: nowrap;
+  height: 36px;
 }

@@ -6,7 +6,7 @@
  *     mobile sizes — console errors/warnings, horizontal overflow — plus an
  *     axe-core accessibility audit with and without reduced motion.
  *
- * Usage: node scripts/qa.mjs
+ * Usage: node scripts/qa.mjs [route …]   (e.g. `node scripts/qa.mjs / /contact/` to check only those)
  * Browser checks need Playwright: `npm i -D playwright && npx playwright install chromium`.
  */
 import { spawn } from "node:child_process";
@@ -20,6 +20,8 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const out = path.join(root, "out");
 const PORT = 4321;
 const BASE = `http://localhost:${PORT}`;
+const MISSING = "/missing-page/"; // deliberately unknown route: must render the 404 page cleanly
+const only = process.argv.slice(2);
 let failures = 0;
 
 const fail = (msg) => {
@@ -94,7 +96,8 @@ async function browserChecks(routes) {
     { name: "mobile", width: 390, height: 844, isMobile: true, hasTouch: true },
   ];
   try {
-    for (const route of [...routes, "/missing-page/"]) {
+    const targets = [...routes, MISSING].filter((r) => !only.length || only.includes(r));
+    for (const route of targets) {
       for (const vp of viewports) {
         for (const reducedMotion of ["no-preference", "reduce"]) {
           const ctx = await browser.newContext({
@@ -121,7 +124,9 @@ async function browserChecks(routes) {
             cw: document.documentElement.clientWidth,
           }));
           if (sw > cw) fail(`${label}: horizontal overflow (${sw}px > ${cw}px)`);
-          logs.forEach((l) => fail(`${label}: console — ${l}`));
+          // The browser logs the 404 status of the missing page's own document — that one is expected.
+          const expected = (l) => route === MISSING && /status of 404/.test(l);
+          logs.filter((l) => !expected(l)).forEach((l) => fail(`${label}: console — ${l}`));
           if (axeSource && vp.name === "desktop") {
             await page.addScriptTag({ content: axeSource });
             const violations = await page.evaluate(async () =>

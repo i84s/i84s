@@ -25,9 +25,9 @@ relief flattens and the line straightens.
 **Colour.** A neutral mineral palette (graphite, stone, bone, plaster) carries
 the whole interface. One **brand slot** (`--brand-primary`) supplies every
 accent: the level line, focus rings, progress bars, active states and the map.
-It is currently a provisional warm mineral tone. Set the official DRYCHEM
-colour and the whole site follows (see `BRAND-SLOTS.md`). On light surfaces the
-accent is darkened with `color-mix()` to keep AA contrast for small text.
+It holds the teal of the IMC logo; change it and the whole site follows (see
+`BRAND-SLOTS.md`). For small text the accent is lightened on dark surfaces and
+darkened on light ones with `color-mix()`, to keep AA contrast.
 
 **Typography.** Archivo, a grotesque with a 62–125 % width axis, is used
 slightly condensed and tightly tracked for display type and normal width for

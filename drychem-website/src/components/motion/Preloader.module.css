@@ -32,13 +32,8 @@
   bottom: calc(50% + 18px);
 }
 
-.mark :global([data-logo-placeholder]) {
-  font-size: clamp(30px, 5.4vw, 76px);
-  letter-spacing: 0.06em;
-}
-
 .mark img {
-  height: clamp(30px, 5vw, 64px);
+  height: clamp(52px, 7.4vw, 108px);
 }
 
 .mask {

@@ -1,36 +1,38 @@
 /**
  * ──────────────────────────────────────────────────────────────────────────
- *  BRAND SLOTS — replace with official DRYCHEM assets before launch
+ *  BRAND
  * ──────────────────────────────────────────────────────────────────────────
- * drychem.com could not be reached from the build environment, so the official
- * logo, colours and typefaces could NOT be verified. Nothing here is an
- * official DRYCHEM asset:
+ *  • Logo: the IMC artwork supplied by the client (`brand-source/`),
+ *    vectorised by `scripts/trace_logo.py` into `public/brand/`. Re-run the
+ *    script if the source files change, or drop in official vector files
+ *    under the same names.
+ *  • Colours: `--brand-primary` in `src/app/globals.css` is the teal measured
+ *    from the same artwork; every accent derives from it.
+ *  • Typefaces: provisional, see `src/app/fonts.ts`.
  *
- *  • Logo: until `logo.src` points at the official file, the header and footer
- *    render the company name as plain text. This is a placeholder, not a logo.
- *  • Colours: `--brand-primary` / `--brand-primary-ink` in `src/app/globals.css`
- *    hold a neutral, provisional accent. Replace them with the official values.
- *  • Typefaces: see `src/app/fonts.ts`.
- *
- * See `docs/BRAND-SLOTS.md` for the step-by-step swap guide.
+ * See `docs/BRAND-SLOTS.md` for the full guide.
  */
 
+import logos from "@/generated/logos.json";
+
+/** "mark" is the IMC symbol alone; the lockups add the company name in Arabic and English. */
+export type LogoVariant = keyof typeof logos;
+
 export type LogoAsset = {
-  /** Path under /public, e.g. "/brand/drychem-logo.svg". */
+  /** Path under /public. */
   src: string;
-  /** Intrinsic dimensions — keep the official proportions. */
+  /** Intrinsic dimensions, from the artwork. */
   width: number;
   height: number;
 };
 
-export const brand: {
-  name: string;
-  /** Logo for light backgrounds. */
-  logo: LogoAsset | null;
-  /** Optional reversed logo for dark backgrounds (falls back to `logo`). */
-  logoOnDark: LogoAsset | null;
-} = {
-  name: "DRYCHEM",
-  logo: null,
-  logoOnDark: null,
+export const brand = {
+  /** What the logo reads as, for link labels such as "IMC — home". */
+  name: "IMC",
+  /** Alt text for the logo artwork. */
+  alt: "IMC — Industrial Minerals Company (SFZ) L.L.C",
+  /** Full-colour artwork for light surfaces; reversed (light green) for dark ones. */
+  logo(variant: LogoVariant, surface: "light" | "dark"): LogoAsset {
+    return { src: `/brand/imc-${variant}${surface === "dark" ? "-reversed" : ""}.svg`, ...logos[variant] };
+  },
 };

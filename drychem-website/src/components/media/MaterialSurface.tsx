@@ -24,7 +24,7 @@ type Props = { stateRef: RefObject<SurfaceState>; className?: string; onReady?: 
 function readAccent(): [number, number, number] {
   const raw = getComputedStyle(document.documentElement).getPropertyValue("--brand-primary").trim();
   const hex = raw.match(/^#([0-9a-f]{6})$/i)?.[1];
-  if (!hex) return [0.78, 0.7, 0.55];
+  if (!hex) return [0.08, 0.56, 0.53];
   return [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255) as [number, number, number];
 }
 

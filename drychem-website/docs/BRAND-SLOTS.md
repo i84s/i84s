@@ -1,39 +1,66 @@
-# Brand slots — swapping in the official DRYCHEM identity
+# Brand slots — the logo, colours and other identity assets
 
 The official website (drychem.com) could not be reached from the environment
-this site was built in. Brand facts were researched through web search, but
-**the logo, brand colours, typefaces and photography could not be verified**.
-Instead of guessing, the site isolates every brand-specific decision in a few
-clearly marked slots. Nothing in them is presented as an official asset.
+this site was built in, so every brand-specific decision sits in a few clearly
+marked slots. The logo is now the **IMC artwork supplied by the client**. The
+site's copy, company facts, products and contact details are still DRYCHEM's
+(see `docs/CONTENT-SOURCES.md`); nothing here changes them.
 
-| Slot                     | Current state                                                 | Where                                                        |
-| ------------------------ | ------------------------------------------------------------- | ------------------------------------------------------------ |
-| Logo                     | Company name as plain text (placeholder, not a designed mark) | `src/config/brand.ts`                                        |
-| Logo on dark backgrounds | Falls back to the main logo                                   | `src/config/brand.ts`                                        |
-| Primary brand colour     | Provisional neutral mineral accent `#c8b38b`                  | `src/app/globals.css` → `--brand-primary`                    |
-| Text on brand colour     | `#111313`                                                     | `src/app/globals.css` → `--brand-primary-ink`                |
-| Typefaces                | Archivo (display/body) + JetBrains Mono (labels), self-hosted | `src/app/fonts.ts`                                           |
-| Favicon                  | Neutral "level line" glyph                                    | `public/brand/favicon.svg`                                   |
-| Photography              | Procedural material studies                                   | `src/lib/media.ts`, `src/components/media/MaterialImage.tsx` |
+| Slot                 | Current state                                                              | Where                                                        |
+| -------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Logo                 | IMC artwork supplied by the client, vectorised: symbol and two lockups     | `src/config/brand.ts`, `public/brand/`                       |
+| Logo on dark         | Reversed versions derived from the same artwork (green → off-white)        | `public/brand/*-reversed.svg`                                |
+| Primary brand colour | IMC teal `#158e87`, measured from the logo                                 | `src/app/globals.css` → `--brand-primary`                    |
+| Text on brand colour | `#111313`                                                                  | `src/app/globals.css` → `--brand-primary-ink`                |
+| Typefaces            | Provisional: Archivo (display/body) + JetBrains Mono (labels), self-hosted | `src/app/fonts.ts`                                           |
+| Favicon              | The IMC symbol on a white tile, generated from the logo                    | `public/brand/favicon.svg`                                   |
+| Photography          | Procedural material studies                                                | `src/lib/media.ts`, `src/components/media/MaterialImage.tsx` |
 
 ## 1. Logo
 
-1. Put the official files in `public/brand/`. SVG is best: `drychem-logo.svg`
-   for light backgrounds and `drychem-logo-reversed.svg` for dark ones.
-2. Edit `src/config/brand.ts`:
+The client supplied the logo as two flat-colour JPEGs, kept in `brand-source/`:
+a horizontal lockup (symbol, then the company name in Arabic and English,
+"Industrial Minerals Company (SFZ) L.L.C") and a stacked one ("INDUSTRIAL
+MINERALS COMPANY"). `scripts/trace_logo.py` turns them into transparent SVGs in
+`public/brand/`: it separates the logo's two colours, upsamples, and traces each
+colour with potrace. It writes
 
-   ```ts
-   export const brand = {
-     name: "DRYCHEM",
-     logo: { src: "/brand/drychem-logo.svg", width: 180, height: 32 },
-     logoOnDark: { src: "/brand/drychem-logo-reversed.svg", width: 180, height: 32 },
-   };
-   ```
+- `imc-mark.svg`: the symbol alone, cropped from the stacked artwork;
+- `imc-horizontal.svg` and `imc-stacked.svg`: the two lockups;
+- a `-reversed` version of each for dark surfaces;
+- `favicon.svg`; and the artwork sizes in `src/generated/logos.json`.
 
-   Use the artwork's intrinsic `width`/`height` so its proportions are kept.
-   The header switches between the two versions automatically as it passes
-   over light and dark sections. Display height is set in
-   `src/components/brand/BrandLogo.module.css` (`.logo { height: 22px }`).
+To re-run it after changing the source files:
+
+```bash
+pip install potracer numpy pillow
+python3 scripts/trace_logo.py
+```
+
+Where each version is used, and where its display size is set:
+
+| Place                 | Artwork                     | Size set in                                             |
+| --------------------- | --------------------------- | ------------------------------------------------------- |
+| Header                | Symbol, colour or reversed  | `SiteHeader.module.css` → `.logo img`                   |
+| Opening sequence      | Symbol, reversed            | `Preloader.module.css` → `.mark img`                    |
+| Page-transition panel | Symbol, reversed            | `TransitionProvider.module.css` → `.brand img`          |
+| Footer                | Horizontal lockup, reversed | `SiteFooter.module.css` → `.logo` (width, up to 460 px) |
+
+The header switches between the colour and reversed artwork automatically as
+it passes over light and dark sections. The lockups' lettering is small, so they
+are only used where they can be shown large enough to read; the header uses the
+symbol alone.
+
+Two things to confirm with the brand owner:
+
+- **Reversed treatment.** The `-reversed` files swap the green for off-white
+  (`#f2f0eb`) and keep the teal. That was derived for this site, not supplied.
+  If the brand guidelines specify a different version for dark backgrounds
+  (all-white, for example), replace those files.
+- **Master files.** The traces follow the supplied artwork closely, but they
+  are traced from raster images. If official vector files (SVG, AI, EPS or PDF)
+  exist, export them under the same names into `public/brand/` and update the
+  sizes in `src/generated/logos.json`.
 
 ## 2. Colours
 
@@ -41,24 +68,32 @@ In `src/app/globals.css`:
 
 ```css
 :root {
-  --brand-primary: #……; /* official primary colour */
-  --brand-primary-ink: #……; /* text/icon colour used on top of it */
+  --brand-primary: #158e87; /* the teal of the IMC logo */
+  --brand-primary-ink: #111313; /* text/icon colour used on top of it */
 }
 ```
 
-Everything else derives from these: the level line in the hero, preloader and
-curtain, button fills, focus rings, the progress rule, the map, active states
-and text selection. The WebGL hero reads `--brand-primary` at runtime as well.
+The teal was measured from the supplied artwork (the logo's green is
+`#1e572c`). If the brand guidelines give exact values, use those. Everything
+else derives from these two: the level line in the hero, preloader and curtain,
+button fills, focus rings, the progress rule, the map, active states and text
+selection. The WebGL hero reads `--brand-primary` at runtime as well.
 
-**Check contrast after changing it.** On light sections the accent is mixed
-with graphite (`--accent: color-mix(… 46% …)`) so small accent text keeps a
-4.5:1 ratio. A darker or more saturated brand colour may need a different mix.
-`npm run qa` re-runs the automated accessibility audit if you wire it to axe
-(see README → Quality checks).
+**Contrast.** The teal is a mid-tone, so accent text is adjusted per surface:
 
-If the brand uses a second colour, add it beside `--brand-primary` and use it
-deliberately. The neutral palette was designed to carry the interface on its
-own.
+| Use                                 | Colour                          | Contrast                        |
+| ----------------------------------- | ------------------------------- | ------------------------------- |
+| Accent text on dark sections        | Teal mixed 80/20 with off-white | 5.8–6.4:1                       |
+| Accent text on light sections       | Teal mixed 62/38 with graphite  | 5.9–7.2:1                       |
+| Text on teal fills (buttons, hover) | `#111313`                       | 4.7:1                           |
+| Focus rings                         | Teal                            | ≥ 3.2:1 (light), ≥ 4.4:1 (dark) |
+
+White text on the teal is only 4.0:1, too low for small text, which is why the
+ink is dark. Re-check these after changing either colour; `npm run qa` runs the
+axe-core audit on every page.
+
+The logo green is not used as an interface colour, so the site keeps a single
+accent. If you want it, add it beside `--brand-primary` and use it deliberately.
 
 ## 3. Typefaces
 
@@ -75,7 +110,7 @@ re-check the large headlines for line length.
 ## 4. Photography
 
 Every image goes through `MaterialImage` and the `material()` helper, which
-reads `src/generated/media.json`. To use real DRYCHEM photography:
+reads `src/generated/media.json`. To use real photography:
 
 - **Replace a study**: drop a PNG/JPEG master named after the study (for
   example `putty.png`) into `assets-src/materials/` and run
@@ -92,7 +127,8 @@ shots for the build-up panels.
 
 ## 5. Favicon and social image
 
-- `public/brand/favicon.svg`: replace with the official favicon.
-- `public/media/og.jpg` (1200 × 630): currently rendered from the hero. Once
-  the logo is in, regenerate it (see `scripts/` in the README) or replace it
-  with an approved design.
+- `public/brand/favicon.svg`: the IMC symbol on a white rounded tile, written
+  by `scripts/trace_logo.py`. Replace it if the brand has an official favicon.
+- `public/media/og.jpg` (1200 × 630): the hero with the header logo, rendered
+  from the site. Re-render it after changing the hero or the logo, or replace
+  it with an approved design.

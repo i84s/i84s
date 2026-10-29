@@ -69,7 +69,12 @@
   min-height: 44px;
 }
 
-.logoLight {
+.logo img {
+  height: 38px;
+}
+
+/* Full-colour artwork over light sections, reversed over dark ones (and the open menu). */
+.logo .logoLight {
   display: none;
 }
 

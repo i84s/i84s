@@ -1,4 +1,5 @@
 import { solutionNav } from "@/config/site";
+import { brand } from "@/config/brand";
 import { company, contact, officialLinks } from "@/content/company";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { TransitionLink } from "@/components/motion/TransitionLink";
@@ -21,8 +22,8 @@ export function SiteFooter() {
     <footer className={styles.footer} data-theme="dark">
       <div className="wrap">
         <div className={styles.top}>
-          <TransitionLink href="/" label="Home" className={styles.logo} aria-label={`${company.name} — home`}>
-            <BrandLogo surface="dark" />
+          <TransitionLink href="/" label="Home" className={styles.logo} aria-label={`${brand.alt} — home`}>
+            <BrandLogo variant="horizontal" surface="dark" loading="lazy" />
           </TransitionLink>
           <p className={styles.tagline}>Engineering excellence. Built to last.</p>
         </div>

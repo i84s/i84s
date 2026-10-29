@@ -118,14 +118,8 @@ export function SiteHeader() {
       <div className={styles.progress} aria-hidden="true" />
       <div className={`wrap ${styles.bar}`}>
         <TransitionLink href="/" label="Home" className={styles.logo} aria-label={`${brand.name} — home`}>
-          {brand.logoOnDark && brand.logo ? (
-            <>
-              <BrandLogo surface="dark" className={styles.logoDark} />
-              <BrandLogo surface="light" className={styles.logoLight} />
-            </>
-          ) : (
-            <BrandLogo surface="dark" />
-          )}
+          <BrandLogo surface="dark" className={styles.logoDark} />
+          <BrandLogo surface="light" className={styles.logoLight} />
         </TransitionLink>
 
         <nav aria-label="Primary" className={styles.nav}>
