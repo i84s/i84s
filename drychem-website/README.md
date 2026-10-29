@@ -152,6 +152,10 @@ The homepage ships about 250 KB of JS and 12 KB of CSS (gzipped), plus 130 KB of
 - Set **`NEXT_PUBLIC_SITE_URL`** to the deployment's URL: canonical links, Open
   Graph, `sitemap.xml` and `robots.txt` use it. It defaults to `https://drychem.com`
   (the production target), so set it on preview deployments.
+- Set **`SITE_NOINDEX=1`** on preview deployments to keep them out of search results.
+- **Netlify:** `netlify.toml` holds the build settings (build command, `out/` as the
+  publish directory, long-lived caching for `/_next/static/*`). Set the two variables
+  above in the site's environment variables, not in the file.
 - URLs use trailing slashes (`/contact/`), and each route is a folder with an `index.html`.
 - Serve `/_next/static/*` with long-lived immutable caching, and enable gzip or brotli.
 

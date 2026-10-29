@@ -35,6 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image", title: site.title, description: site.description, images: ["/media/og.jpg"] },
   icons: { icon: [{ url: "/brand/favicon.svg", type: "image/svg+xml" }] },
+  // Preview deployments set SITE_NOINDEX=1 at build time to stay out of search results.
+  robots: process.env.SITE_NOINDEX === "1" ? { index: false, follow: false } : undefined,
 };
 
 export const viewport: Viewport = {
