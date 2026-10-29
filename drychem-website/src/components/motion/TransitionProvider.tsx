@@ -30,6 +30,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     hash: null,
     locked: false,
   });
+  const stallTimer = useRef<number | undefined>(undefined);
 
   const navigate = useCallback(
     (href: string, label?: string) => {
@@ -57,7 +58,13 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       lockScroll(true);
       flight.current.locked = true;
       gsap
-        .timeline({ onComplete: () => router.push(destination, { scroll: false }) })
+        .timeline({
+          onComplete: () => {
+            router.push(destination, { scroll: false });
+            // If the router stalls, finish with a normal page load rather than leave the curtain down.
+            stallTimer.current = window.setTimeout(() => window.location.assign(destination), 5000);
+          },
+        })
         .set(curtain, { visibility: "visible" })
         .fromTo(
           curtain,
@@ -84,6 +91,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const state = flight.current;
     if (!state.active) return;
+    window.clearTimeout(stallTimer.current);
     const curtain = curtainRef.current;
 
     const raf = requestAnimationFrame(() => {

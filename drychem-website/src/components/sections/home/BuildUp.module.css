@@ -104,8 +104,16 @@
 /* ── Pinned 3D layout ── */
 
 @media (min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference) {
+  /* The stage sticks while the track scrolls past: one screen for the stage itself
+     plus 0.85 of a screen per layer, the distance the scroll-driven timeline spans. */
+  :global(html.js) .track {
+    height: calc(100vh * (1 + 0.85 * var(--layers)));
+    height: calc(100svh * (1 + 0.85 * var(--layers)));
+  }
+
   :global(html.js) .stage {
-    position: relative;
+    position: sticky;
+    top: 0;
     height: 100vh;
     height: 100svh;
     display: grid;

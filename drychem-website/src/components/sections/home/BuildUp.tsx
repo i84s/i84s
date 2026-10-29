@@ -16,9 +16,14 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
  * "The build-up": the five physical solution families as an exploded stack of
- * material slabs, from structure to surface. On large screens the stage pins
- * and scroll drives a camera orbit, the explode and a layer-by-layer focus; on
- * small screens (or with reduced motion) it becomes a simple vertical list.
+ * material slabs, from structure to surface. On large screens the stage sticks
+ * to the viewport while a tall track scrolls past, and scroll drives a camera
+ * orbit, the explode and a layer-by-layer focus; on small screens (or with
+ * reduced motion) it becomes a simple vertical list.
+ *
+ * The stage is held with CSS `position: sticky` rather than a ScrollTrigger pin:
+ * it can't end up off screen if scroll positions are measured before the layout
+ * settles, and it needs no pin spacer.
  */
 export function BuildUp() {
   const root = useRef<HTMLElement>(null);
@@ -31,7 +36,7 @@ export function BuildUp() {
       const mm = gsap.matchMedia();
 
       mm.add(mq.pinnable, () => {
-        const stage = q("[data-stage]")[0] as HTMLElement;
+        const track = q("[data-track]")[0] as HTMLElement;
         const tilt = q("[data-tilt]")[0] as HTMLElement;
         const spin = q("[data-spin]")[0] as HTMLElement;
         const slabs = q("[data-slab]") as HTMLElement[];
@@ -64,10 +69,10 @@ export function BuildUp() {
         const tl = gsap.timeline({
           defaults: { ease: "power2.inOut", duration: 0.5 },
           scrollTrigger: {
-            trigger: stage,
+            // The track is one screen taller than the scroll distance (see .track in the CSS).
+            trigger: track,
             start: "top top",
-            end: () => `+=${window.innerHeight * (n * 0.85)}`,
-            pin: true,
+            end: "bottom bottom",
             scrub: 0.9,
             invalidateOnRefresh: true,
             // Layer i takes focus at timeline time i. Use the scroll position (not the
@@ -143,75 +148,77 @@ export function BuildUp() {
         </Reveal>
       </header>
 
-      <div className={styles.stage} data-stage>
-        <div className={`wrap ${styles.grid}`}>
-          <div className={styles.visual} aria-hidden="true">
-            <div className={styles.scene}>
-              <div className={styles.tilt} data-tilt>
-                <div className={styles.spin} data-spin>
-                  {layers.map((layer) => (
-                    <div
-                      key={layer.slug}
-                      className={styles.slab}
-                      data-slab
-                      style={
-                        {
-                          "--tone": materialColor(layer.material),
-                        } as CSSProperties
-                      }
-                    >
-                      <div className={`${styles.face} ${styles.top}`}>
-                        <MaterialImage name={layer.material} sizes="420px" className={styles.faceImage} />
+      <div className={styles.track} data-track style={{ "--layers": layers.length } as CSSProperties}>
+        <div className={styles.stage}>
+          <div className={`wrap ${styles.grid}`}>
+            <div className={styles.visual} aria-hidden="true">
+              <div className={styles.scene}>
+                <div className={styles.tilt} data-tilt>
+                  <div className={styles.spin} data-spin>
+                    {layers.map((layer) => (
+                      <div
+                        key={layer.slug}
+                        className={styles.slab}
+                        data-slab
+                        style={
+                          {
+                            "--tone": materialColor(layer.material),
+                          } as CSSProperties
+                        }
+                      >
+                        <div className={`${styles.face} ${styles.top}`}>
+                          <MaterialImage name={layer.material} sizes="420px" className={styles.faceImage} />
+                        </div>
+                        <div className={`${styles.face} ${styles.front}`}>
+                          <span>{pad(layer.layer.order)}</span>
+                        </div>
+                        <div className={`${styles.face} ${styles.side}`} />
                       </div>
-                      <div className={`${styles.face} ${styles.front}`}>
-                        <span>{pad(layer.layer.order)}</span>
-                      </div>
-                      <div className={`${styles.face} ${styles.side}`} />
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
+
+            <div className={styles.panels}>
+              {layers.map((layer) => (
+                <article key={layer.slug} className={styles.panel} data-panel aria-labelledby={`layer-${layer.slug}`}>
+                  <div className={styles.panelVisual}>
+                    <MediaReveal className={styles.panelFrame} parallax={6}>
+                      <MaterialImage name={layer.material} sizes="(min-width: 600px) 60vw, 92vw" alt="" />
+                    </MediaReveal>
+                  </div>
+                  <p className={styles.index}>
+                    <span>Layer {pad(layer.layer.order)}</span>
+                    <span>/ {pad(layers.length)}</span>
+                    <span className={styles.layerName}>{layer.layer.label}</span>
+                  </p>
+                  <h3 id={`layer-${layer.slug}`} className={styles.panelTitle}>
+                    {layer.name}
+                  </h3>
+                  <p className={styles.tagline}>{layer.tagline}</p>
+                  <p className={styles.summary}>{layer.summary}</p>
+                  <ul className={styles.highlights}>
+                    {layer.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
+                  <Button href={solutionHref(layer.slug)} label={layer.name} variant="outline">
+                    {`Explore ${layer.short.toLowerCase()}`}
+                  </Button>
+                </article>
+              ))}
+            </div>
           </div>
 
-          <div className={styles.panels}>
+          <ol className={`wrap ${styles.ticks}`} aria-hidden="true">
             {layers.map((layer) => (
-              <article key={layer.slug} className={styles.panel} data-panel aria-labelledby={`layer-${layer.slug}`}>
-                <div className={styles.panelVisual}>
-                  <MediaReveal className={styles.panelFrame} parallax={6}>
-                    <MaterialImage name={layer.material} sizes="(min-width: 600px) 60vw, 92vw" alt="" />
-                  </MediaReveal>
-                </div>
-                <p className={styles.index}>
-                  <span>Layer {pad(layer.layer.order)}</span>
-                  <span>/ {pad(layers.length)}</span>
-                  <span className={styles.layerName}>{layer.layer.label}</span>
-                </p>
-                <h3 id={`layer-${layer.slug}`} className={styles.panelTitle}>
-                  {layer.name}
-                </h3>
-                <p className={styles.tagline}>{layer.tagline}</p>
-                <p className={styles.summary}>{layer.summary}</p>
-                <ul className={styles.highlights}>
-                  {layer.highlights.map((h) => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </ul>
-                <Button href={solutionHref(layer.slug)} label={layer.name} variant="outline">
-                  {`Explore ${layer.short.toLowerCase()}`}
-                </Button>
-              </article>
+              <li key={layer.slug} data-tick>
+                <span>{pad(layer.layer.order)}</span> {layer.layer.label}
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
-
-        <ol className={`wrap ${styles.ticks}`} aria-hidden="true">
-          {layers.map((layer) => (
-            <li key={layer.slug} data-tick>
-              <span>{pad(layer.layer.order)}</span> {layer.layer.label}
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
   );
