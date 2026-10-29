@@ -1,0 +1,4 @@
+/* The hero is sticky inside this stack, so the About chapter slides over it. */
+.stack {
+  position: relative;
+}

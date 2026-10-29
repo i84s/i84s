@@ -1,0 +1,137 @@
+.intro {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 -30px 60px -24px rgb(0 0 0 / 0.5);
+}
+
+.head {
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.statement {
+  font-size: clamp(1.9rem, 1rem + 3.3vw, 4.6rem);
+  font-weight: 400;
+  font-stretch: 94%;
+  letter-spacing: -0.032em;
+  line-height: 1.06;
+  max-width: 21ch;
+  text-wrap: pretty;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  margin-top: clamp(80px, 11vw, 180px);
+  align-items: start;
+}
+
+.figure {
+  grid-column: 1 / span 5;
+}
+
+.frame {
+  aspect-ratio: 4 / 5;
+  background: var(--bone-200);
+}
+
+.caption {
+  display: flex;
+  gap: 1.4em;
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+
+.text {
+  grid-column: 7 / span 6;
+  padding-top: clamp(0px, 8vw, 140px);
+}
+
+.subhead {
+  font-size: var(--step-3);
+  font-weight: 450;
+  font-stretch: 96%;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.copy {
+  display: grid;
+  gap: 1.1em;
+  margin-top: clamp(28px, 3vw, 44px);
+  max-width: 46ch;
+  font-size: var(--step-0);
+  color: var(--fg-muted);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 var(--gutter);
+  margin: clamp(96px, 12vw, 200px) 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 28px;
+}
+
+.fact dd {
+  margin: 0;
+  font-size: clamp(2.4rem, 1.4rem + 3.6vw, 5.2rem);
+  font-weight: 400;
+  font-stretch: 88%;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.fact dt {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+  max-width: 22ch;
+}
+
+.fact:nth-child(4) dd {
+  font-size: clamp(1.6rem, 1rem + 2.2vw, 3.2rem);
+  padding-top: 0.25em;
+}
+
+@media (max-width: 900px) {
+  .figure {
+    grid-column: 1 / span 10;
+  }
+
+  .text {
+    grid-column: 1 / -1;
+    padding-top: 56px;
+  }
+
+  .facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .figure {
+    grid-column: 1 / -1;
+  }
+}

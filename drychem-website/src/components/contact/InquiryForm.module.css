@@ -1,0 +1,233 @@
+.form {
+  display: grid;
+  gap: clamp(26px, 3vw, 38px);
+}
+
+.requiredNote {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  color: var(--fg-faint);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(26px, 3vw, 38px) var(--gutter);
+}
+
+.field {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: 0;
+}
+
+.optional {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--fg-faint);
+}
+
+.input {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  font-size: var(--step-1);
+  line-height: 1.4;
+  transition: border-color 0.35s var(--ease-soft);
+  appearance: none;
+}
+
+.input:hover {
+  border-bottom-color: var(--fg-muted);
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: var(--fg);
+  box-shadow: 0 1px 0 0 var(--fg);
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.field[data-invalid] .input {
+  border-bottom-color: #b3261e;
+  box-shadow: 0 1px 0 0 #b3261e;
+}
+
+.select {
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 12px) 50%,
+    calc(100% - 7px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 28px;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.hint {
+  font-size: var(--step--1);
+  color: var(--fg-faint);
+}
+
+.error {
+  font-size: var(--step--1);
+  color: #b3261e;
+}
+
+/* ── Topic chips ── */
+
+.topics {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.topics legend {
+  margin-bottom: 14px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  position: relative;
+  cursor: pointer;
+}
+
+.chip input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+  transition:
+    background-color 0.3s var(--ease-soft),
+    color 0.3s var(--ease-soft),
+    box-shadow 0.3s var(--ease-soft);
+}
+
+.chip:hover span {
+  color: var(--fg);
+}
+
+.chip input:checked + span {
+  background: var(--graphite-900);
+  color: var(--plaster-50);
+  box-shadow: none;
+}
+
+.chip input:focus-visible + span {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
+/* ── Honeypot ── */
+
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Submit & status ── */
+
+.submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  padding-top: 8px;
+}
+
+.status {
+  display: grid;
+  gap: 14px;
+  font-size: var(--step-0);
+}
+
+.status:focus {
+  outline: none;
+}
+
+.status:not([data-kind="idle"]) {
+  padding: 22px 24px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--graphite-900);
+}
+
+.status[data-kind="error"] {
+  border-left-color: #b3261e;
+}
+
+.copyBox {
+  min-height: 160px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  white-space: pre-wrap;
+}
+
+.copy {
+  justify-self: start;
+  min-height: 40px;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.copy:hover {
+  background: var(--graphite-900);
+  color: var(--plaster-50);
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

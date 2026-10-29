@@ -1,0 +1,69 @@
+.closing {
+  padding-top: clamp(120px, 16vw, 260px);
+  padding-bottom: clamp(88px, 10vw, 160px);
+  overflow: clip;
+}
+
+.title {
+  margin-top: clamp(20px, 3vw, 40px);
+  font-size: clamp(4rem, 0.8rem + 15.5vw, 19rem);
+  font-weight: 500;
+  font-stretch: 86%;
+  letter-spacing: -0.055em;
+  line-height: 0.88;
+}
+
+.mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+/* Light raking across the letters: a warm band moves through a clipped gradient.
+   The rise animates this same element — background-clip: text doesn't paint
+   through transformed descendants in every browser. */
+.sweep {
+  display: block;
+  background-image: linear-gradient(
+    100deg,
+    var(--plaster-50) 0%,
+    var(--plaster-50) 38%,
+    color-mix(in srgb, var(--brand-primary) 85%, white) 47%,
+    var(--white) 50%,
+    color-mix(in srgb, var(--brand-primary) 85%, white) 53%,
+    var(--plaster-50) 62%,
+    var(--plaster-50) 100%
+  );
+  background-size: 320% 100%;
+  background-position: 0% 0%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px 48px;
+  margin-top: clamp(40px, 5vw, 80px);
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.text {
+  font-size: var(--step-2);
+  font-weight: 400;
+  font-stretch: 96%;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  max-width: 30ch;
+  color: var(--fg-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}

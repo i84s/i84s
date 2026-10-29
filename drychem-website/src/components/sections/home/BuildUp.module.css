@@ -1,0 +1,313 @@
+.buildup {
+  padding-bottom: clamp(64px, 8vw, 120px);
+  overflow-x: clip;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: 28px;
+  margin-bottom: clamp(56px, 8vw, 120px);
+}
+
+.head > :first-child {
+  grid-column: 1 / -1;
+}
+
+.title {
+  grid-column: 1 / span 7;
+  max-width: 14ch;
+}
+
+.lede {
+  grid-column: 9 / span 4;
+  align-self: end;
+}
+
+/* ── List layout (default: small screens, reduced motion, no JS) ── */
+
+.visual,
+.ticks {
+  display: none;
+}
+
+.panels {
+  display: grid;
+  gap: clamp(72px, 12vw, 120px);
+}
+
+.panel {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  max-width: 640px;
+}
+
+.panelVisual {
+  margin-bottom: 10px;
+}
+
+.panelFrame {
+  aspect-ratio: 16 / 10;
+  background: var(--graphite-800);
+}
+
+.index {
+  display: flex;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+
+.layerName {
+  margin-left: 1.2em;
+  color: var(--accent);
+}
+
+.panelTitle {
+  font-size: var(--step-4);
+  font-weight: 500;
+  font-stretch: 92%;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.tagline {
+  font-size: var(--step-1);
+  color: var(--fg);
+}
+
+.summary {
+  color: var(--fg-muted);
+  max-width: 48ch;
+}
+
+.highlights {
+  display: grid;
+  gap: 0;
+  margin: 6px 0 14px;
+  border-top: 1px solid var(--line);
+}
+
+.highlights li {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+/* ── Pinned 3D layout ── */
+
+@media (min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference) {
+  :global(html.js) .stage {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding-top: var(--header-h);
+  }
+
+  :global(html.js) .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: center;
+  }
+
+  :global(html.js) .visual {
+    display: block;
+    grid-column: 1 / span 7;
+    height: 100%;
+    min-height: 0;
+  }
+
+  :global(html.js) .panels {
+    grid-column: 8 / span 5;
+    display: grid;
+    gap: 0;
+  }
+
+  :global(html.js) .panel {
+    grid-area: 1 / 1;
+    align-self: center;
+  }
+
+  :global(html.js) .panelVisual {
+    display: none;
+  }
+
+  :global(html.js) .ticks {
+    display: flex;
+    gap: clamp(16px, 3vw, 48px);
+    padding-bottom: clamp(20px, 4vh, 40px);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  :global(html.js) .ticks li {
+    position: relative;
+    padding-top: 14px;
+    transition: color 0.5s var(--ease-soft);
+  }
+
+  :global(html.js) .ticks li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: var(--line);
+  }
+
+  :global(html.js) .ticks li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.7s var(--ease-settle);
+  }
+
+  :global(html.js) .ticks li[data-active] {
+    color: var(--fg);
+  }
+
+  :global(html.js) .ticks li[data-active]::after {
+    transform: scaleX(1);
+  }
+
+  :global(html.js) .ticks span {
+    color: var(--accent);
+    margin-right: 0.5em;
+  }
+}
+
+/* The 3D scene. */
+.scene {
+  --s: min(27vw, 42vh, 400px);
+  position: relative;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  perspective: 2000px;
+  perspective-origin: 50% 30%;
+}
+
+/* The stack explodes upwards, so its base sits below centre: once fully
+   exploded the whole stack is centred in the stage. */
+.tilt {
+  transform-style: preserve-3d;
+  transform: rotateX(62deg);
+  translate: 0 calc(var(--s) * 0.44);
+}
+
+.spin {
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+  transform-style: preserve-3d;
+  transform: rotate(-44deg);
+}
+
+.slab {
+  --dim: 0;
+  --t: calc(var(--s) * 0.075);
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  backface-visibility: visible;
+}
+
+.face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--graphite-950);
+  opacity: var(--dim);
+  pointer-events: none;
+}
+
+.top {
+  inset: 0;
+  transform: translateZ(var(--t));
+  background-color: var(--tone);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+}
+
+.faceImage,
+.faceImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slab[data-active] .top {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--brand-primary) 80%, transparent),
+    0 0 60px -10px color-mix(in srgb, var(--brand-primary) 40%, transparent);
+}
+
+/* Front face stands up from the lower edge; side face from the right edge. */
+.front {
+  left: 0;
+  top: 100%;
+  width: 100%;
+  height: var(--t);
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tone) 62%, black),
+    color-mix(in srgb, var(--tone) 40%, black)
+  );
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.front span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgb(255 255 255 / 0.7);
+  transform: scaleY(-1);
+}
+
+.side {
+  top: 0;
+  left: 100%;
+  width: var(--t);
+  height: 100%;
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--tone) 46%, black),
+    color-mix(in srgb, var(--tone) 30%, black)
+  );
+}
+
+@media (max-width: 899px) {
+  .title,
+  .lede {
+    grid-column: 1 / -1;
+  }
+}

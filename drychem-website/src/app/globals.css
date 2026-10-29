@@ -1,0 +1,432 @@
+/* ==========================================================================
+   DRYCHEM — design tokens & base styles
+   ========================================================================== */
+
+:root {
+  /* ── Brand slots ───────────────────────────────────────────────────────
+     PROVISIONAL. drychem.com could not be accessed while this was built, so
+     these are NOT verified DRYCHEM colours. Replace with the official values
+     (see docs/BRAND-SLOTS.md). Every accent in the site derives from them. */
+  --brand-primary: #c8b38b;
+  --brand-primary-ink: #111313;
+
+  /* ── Mineral neutrals (complementary, brand-independent) ── */
+  --graphite-950: #0a0b0b;
+  --graphite-900: #111313;
+  --graphite-850: #171919;
+  --graphite-800: #1e2121;
+  --graphite-700: #2b2f2f;
+  --stone-600: #4b4e4c;
+  --stone-500: #6f716c;
+  --stone-400: #91918b;
+  --stone-300: #b5b2aa;
+  --bone-200: #d9d5cb;
+  --bone-100: #e8e5dd;
+  --plaster-50: #f2f0eb;
+  --white: #fbfaf7;
+
+  /* ── Typography ── */
+  --font-sans: var(--font-archivo), "Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --step--2: clamp(0.69rem, 0.67rem + 0.08vw, 0.74rem);
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.86rem);
+  --step-0: clamp(0.98rem, 0.94rem + 0.18vw, 1.1rem);
+  --step-1: clamp(1.15rem, 1.06rem + 0.42vw, 1.42rem);
+  --step-2: clamp(1.4rem, 1.2rem + 0.95vw, 2rem);
+  --step-3: clamp(1.8rem, 1.42rem + 1.8vw, 3rem);
+  --step-4: clamp(2.3rem, 1.6rem + 3.4vw, 4.8rem);
+  --step-5: clamp(2.9rem, 1.7rem + 5.8vw, 7.6rem);
+  --step-6: clamp(3.3rem, 1.4rem + 9.4vw, 12rem);
+
+  /* ── Layout ── */
+  --margin: clamp(18px, 4.2vw, 76px);
+  --gutter: clamp(14px, 1.6vw, 28px);
+  --section-y: clamp(104px, 13vw, 210px);
+  --header-h: 76px;
+  --radius-pill: 999px;
+
+  /* ── Motion (mirrors src/lib/motion.ts) ── */
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-sweep: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur-micro: 0.35s;
+  --dur-fast: 0.6s;
+  --dur-base: 0.9s;
+
+  color-scheme: dark;
+}
+
+/* Theme surfaces. Sections opt in with data-theme. */
+[data-theme="dark"] {
+  --bg: var(--graphite-900);
+  --bg-raised: var(--graphite-850);
+  --fg: var(--plaster-50);
+  --fg-muted: rgb(242 240 235 / 0.66);
+  --fg-faint: rgb(242 240 235 / 0.56); /* ≥ 4.5:1 on graphite for small text */
+  --line: rgb(242 240 235 / 0.14);
+  --line-strong: rgb(242 240 235 / 0.32);
+  --accent: var(--brand-primary);
+  --btn-bg: var(--plaster-50);
+  --btn-fg: var(--graphite-900);
+}
+
+[data-theme="light"] {
+  --bg: var(--plaster-50);
+  --bg-raised: var(--white);
+  --fg: var(--graphite-900);
+  --fg-muted: rgb(17 19 19 / 0.74);
+  --fg-faint: rgb(17 19 19 / 0.6); /* ≥ 4.5:1 on plaster for small text */
+  --line: rgb(17 19 19 / 0.13);
+  --line-strong: rgb(17 19 19 / 0.3);
+  /* Darkened on light surfaces so accent text keeps AA contrast; re-check after setting the brand colour. */
+  --accent: color-mix(in srgb, var(--brand-primary) 46%, var(--graphite-900));
+  --btn-bg: var(--graphite-900);
+  --btn-fg: var(--plaster-50);
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--graphite-900);
+  color: var(--plaster-50);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  font-stretch: 100%;
+  line-height: 1.55;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video,
+canvas,
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ol,
+ul {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+::selection {
+  background: var(--brand-primary);
+  color: var(--brand-primary-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ── Typography primitives ─────────────────────────────────────────────── */
+
+.display {
+  font-weight: 500;
+  font-stretch: 92%;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+}
+
+.headline {
+  font-size: var(--step-4);
+  font-weight: 500;
+  font-stretch: 94%;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.45;
+  color: var(--fg-muted);
+  text-wrap: pretty;
+  max-width: 44ch;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 0.55em;
+  height: 0.55em;
+  background: var(--accent, var(--brand-primary));
+  flex: none;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+
+.muted {
+  color: var(--fg-muted);
+}
+
+/* ── Layout primitives ─────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  background: var(--bg);
+  color: var(--fg);
+  padding-block: var(--section-y);
+}
+
+.wrap {
+  width: 100%;
+  padding-inline: var(--margin);
+  margin-inline: auto;
+  max-width: 1880px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+.rule {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  padding: 12px 18px;
+  background: var(--plaster-50);
+  color: var(--graphite-900);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  border-radius: var(--radius-pill);
+  transform: translateY(-160%);
+  transition: transform var(--dur-fast) var(--ease-settle);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* SplitText line masks: room for descenders without changing line spacing. */
+.split-line-mask {
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* ── Inline link with drawn underline ─────────────────────────────────── */
+
+.link {
+  position: relative;
+  display: inline;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--dur-fast) var(--ease-settle);
+  padding-bottom: 2px;
+}
+
+@media (hover: hover) {
+  .link:hover {
+    background-size: 100% 1px;
+    background-position: 0% 100%;
+  }
+}
+
+.link--static {
+  background-size: 100% 1px;
+}
+
+@media (hover: hover) {
+  .link--static:hover {
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+  }
+}
+
+/* ── Motion safety ─────────────────────────────────────────────────────────
+   [data-anim] elements start hidden only when JS is running (html.js), so
+   content is never lost without JS. If the motion system has not taken over
+   after a few seconds (e.g. a script failed to load), they reveal anyway. */
+
+html.js [data-anim] {
+  visibility: hidden;
+}
+
+html.js:not(.motion-ready) [data-anim] {
+  animation: reveal-failsafe 0.01s linear 4s forwards;
+}
+
+@keyframes reveal-failsafe {
+  to {
+    visibility: visible;
+  }
+}
+
+/* If the app never becomes interactive (e.g. a script failed to load), the
+   opening overlay must not block the page: fade it out after a few seconds. */
+html.js:not(.motion-ready) .preloader {
+  animation: preloader-failsafe 0.5s ease 5s forwards;
+}
+
+@keyframes preloader-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-anim] {
+    visibility: visible;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Lenis: while a modal/menu stops scrolling. */
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+}
+
+/* ── 404 page (global so the not-found boundary adds no extra stylesheet) ── */
+
+.nf-page {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding-top: calc(var(--header-h) + 40px);
+  padding-bottom: 80px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.nf-title {
+  margin-top: 24px;
+  max-width: 14ch;
+  font-size: var(--step-5);
+  font-weight: 500;
+  font-stretch: 90%;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.nf-text {
+  margin-top: 24px;
+  font-size: var(--step-1);
+  color: var(--fg-muted);
+}
+
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.nf-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}

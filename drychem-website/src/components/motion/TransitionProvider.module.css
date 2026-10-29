@@ -1,0 +1,56 @@
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  visibility: hidden;
+  background: var(--graphite-950);
+  color: var(--plaster-50);
+  clip-path: inset(100% 0% 0% 0%);
+  pointer-events: none;
+}
+
+.inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: end;
+  gap: 18px;
+  padding: var(--margin);
+  padding-bottom: clamp(36px, 7vh, 88px);
+}
+
+.brand,
+.label {
+  display: block;
+  overflow: hidden;
+}
+
+.brand span,
+.label span {
+  display: block;
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.18em;
+  color: var(--fg-muted);
+}
+
+.label {
+  font-size: var(--step-5);
+  font-weight: 500;
+  font-stretch: 92%;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  padding-bottom: 0.06em;
+}
+
+.line {
+  display: block;
+  height: 1px;
+  background: var(--brand-primary);
+  transform-origin: left center;
+  transform: scaleX(0);
+  box-shadow: 0 0 18px 1px color-mix(in srgb, var(--brand-primary) 55%, transparent);
+}

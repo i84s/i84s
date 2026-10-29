@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# generated image masters (re-create with `npm run assets:materials`)
+assets-src/
+
+# QA output
+qa-report/
+
+# env
+.env*
+!.env.example
+
+# misc
+.DS_Store
+npm-debug.log*

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Placeholder icon (the site's "level line" motif), not an official DRYCHEM mark. Replace with the official favicon. -->
+  <rect width="64" height="64" rx="12" fill="#111313"/>
+  <rect x="12" y="31" width="40" height="2" fill="#c8b38b"/>
+  <rect x="12" y="37" width="24" height="2" fill="#f2f0eb" opacity=".5"/>
+</svg>

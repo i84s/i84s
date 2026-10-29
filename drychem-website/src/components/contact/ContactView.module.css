@@ -1,0 +1,156 @@
+.hero {
+  position: relative;
+  background: var(--graphite-950);
+  color: var(--fg);
+  padding-top: calc(var(--header-h) + 28px);
+  padding-bottom: clamp(56px, 8vw, 110px);
+  overflow: hidden;
+}
+
+.crumbs ol {
+  display: flex;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.crumbs li + li::before {
+  content: "/";
+  margin-right: 0.5em;
+  color: var(--fg-faint);
+}
+
+.crumbs li[aria-current] {
+  color: var(--fg);
+}
+
+.title {
+  margin-top: clamp(64px, 12vh, 140px);
+  font-size: clamp(3.4rem, 1rem + 9.4vw, 12.5rem);
+  font-weight: 500;
+  font-stretch: 88%;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.07em;
+  margin-bottom: -0.07em;
+}
+
+.line > span {
+  display: block;
+}
+
+.rule {
+  display: block;
+  height: 1px;
+  margin-top: clamp(28px, 4vw, 48px);
+  background: var(--brand-primary);
+  transform-origin: left center;
+  box-shadow: 0 0 16px 1px color-mix(in srgb, var(--brand-primary) 50%, transparent);
+}
+
+.lede {
+  margin-top: 28px;
+  max-width: 52ch;
+  font-size: var(--step-1);
+  line-height: 1.45;
+  color: var(--fg-muted);
+}
+
+/* ── Form & details ── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: 72px;
+  align-items: start;
+}
+
+.formCol {
+  grid-column: 1 / span 7;
+  display: grid;
+  gap: 32px;
+}
+
+.formTitle {
+  font-size: var(--step-3);
+  font-weight: 500;
+  font-stretch: 94%;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.aside {
+  grid-column: 9 / -1;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.block {
+  display: grid;
+  gap: 8px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.blockLabel {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+
+.address {
+  display: grid;
+  font-style: normal;
+  color: var(--fg-muted);
+}
+
+.address span:first-child {
+  color: var(--fg);
+}
+
+.big {
+  font-size: var(--step-3);
+  font-weight: 400;
+  font-stretch: 92%;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.mail {
+  justify-self: start;
+  font-size: var(--step-1);
+  overflow-wrap: anywhere;
+}
+
+.small {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.external {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  font-weight: 500;
+}
+
+@media (max-width: 1000px) {
+  .formCol,
+  .aside {
+    grid-column: 1 / -1;
+  }
+}

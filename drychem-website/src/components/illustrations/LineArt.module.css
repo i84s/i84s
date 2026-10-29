@@ -1,0 +1,41 @@
+.art {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-width: 0.9;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.art path,
+.art circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.faint {
+  opacity: 0.45;
+}
+
+.dim {
+  color: var(--accent);
+}
+
+.label {
+  fill: currentColor;
+  stroke: none;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  opacity: 0.6;
+}
+
+.big {
+  fill: currentColor;
+  stroke: none;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}

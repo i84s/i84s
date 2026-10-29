@@ -1,0 +1,189 @@
+.magnet {
+  display: inline-block;
+  will-change: transform;
+}
+
+.btn {
+  --h: 54px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h);
+  border-radius: var(--radius-pill);
+  font-size: var(--step--1);
+  font-weight: 600;
+  font-stretch: 104%;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  isolation: isolate;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-fast) var(--ease-settle),
+    box-shadow var(--dur-fast) var(--ease-settle);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 10px 0 26px;
+  min-height: var(--h);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--brand-primary);
+  transform: translateY(101%);
+  transition: transform var(--dur-fast) var(--ease-settle);
+}
+
+.text {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding-block: 0.2em;
+}
+
+.roll {
+  position: relative;
+  display: block;
+  transition: transform var(--dur-fast) var(--ease-settle);
+}
+
+.roll::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.4em);
+}
+
+.icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  font-size: 17px;
+  flex: none;
+}
+
+.icon svg {
+  grid-area: 1 / 1;
+  transition: transform var(--dur-fast) var(--ease-settle);
+}
+
+.icon svg:last-child {
+  transform: translateX(-150%);
+}
+
+/* Variants */
+.solid {
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+}
+
+.solid .icon {
+  background: color-mix(in srgb, var(--btn-fg) 10%, transparent);
+}
+
+.outline {
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+
+.outline .icon {
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
+}
+
+.ghost {
+  --h: 44px;
+  color: var(--fg);
+}
+
+.ghost .inner {
+  padding: 0;
+  gap: 12px;
+}
+
+.ghost .fill {
+  display: none;
+}
+
+.ghost .icon {
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+
+/* Interaction */
+@media (hover: hover) {
+  .btn:hover:not(:disabled) .roll,
+  .btn:focus-visible .roll {
+    transform: translateY(calc(-100% - 0.4em));
+  }
+
+  .btn:hover:not(:disabled) .icon svg:first-child,
+  .btn:focus-visible .icon svg:first-child {
+    transform: translateX(150%);
+  }
+
+  .btn:hover:not(:disabled) .icon svg:last-child,
+  .btn:focus-visible .icon svg:last-child {
+    transform: none;
+  }
+
+  .solid:hover:not(:disabled) .fill,
+  .outline:hover .fill,
+  .solid:focus-visible .fill,
+  .outline:focus-visible .fill {
+    transform: none;
+  }
+
+  .solid:hover:not(:disabled),
+  .outline:hover,
+  .solid:focus-visible,
+  .outline:focus-visible {
+    color: var(--brand-primary-ink);
+  }
+
+  .ghost:hover .icon {
+    background: var(--brand-primary);
+    color: var(--brand-primary-ink);
+    box-shadow: none;
+  }
+}
+
+.btn:active:not(:disabled) .inner {
+  transform: scale(0.98);
+  transition: transform 0.15s var(--ease-soft);
+}
+
+/* Vertical arrows roll in the direction they point. */
+.icon[data-axis="down"] svg:last-child {
+  transform: translateY(-150%);
+}
+
+.icon[data-axis="up"] svg:last-child {
+  transform: translateY(150%);
+}
+
+@media (hover: hover) {
+  .btn:hover .icon[data-axis="down"] svg:first-child,
+  .btn:focus-visible .icon[data-axis="down"] svg:first-child {
+    transform: translateY(150%);
+  }
+
+  .btn:hover .icon[data-axis="up"] svg:first-child,
+  .btn:focus-visible .icon[data-axis="up"] svg:first-child {
+    transform: translateY(-150%);
+  }
+}
