@@ -11,6 +11,7 @@ import { prefersReducedMotion } from "@/lib/motion";
 
 let lenis: Lenis | null = null;
 let lockCount = 0;
+let afterUnlock: Array<() => void> = [];
 
 export function setLenis(instance: Lenis | null) {
   lenis = instance;
@@ -31,6 +32,9 @@ export function scrollToTarget(target: ScrollTarget, opts: { immediate?: boolean
   if (typeof target === "string" && !el) return;
 
   if (lenis) {
+    // Lenis caps targets at its cached page height, which lags behind a route change
+    // (it re-measures on a debounce). Measure now so a fresh page scrolls all the way.
+    lenis.resize();
     lenis.scrollTo(typeof target === "number" ? target : (el as HTMLElement), {
       offset,
       immediate,
@@ -56,4 +60,19 @@ export function lockScroll(locked: boolean) {
     if (isLocked) lenis.stop();
     else lenis.start();
   }
+  if (!isLocked) {
+    const queued = afterUnlock;
+    afterUnlock = [];
+    queued.forEach((fn) => fn());
+  }
+}
+
+/**
+ * Runs `fn` now, or once every scroll lock is released. Restarting Lenis cancels
+ * a scroll in flight, so a scroll started while locked (say, from a link in the
+ * open mobile menu) has to wait for the unlock.
+ */
+export function whenUnlocked(fn: () => void) {
+  if (lockCount === 0) fn();
+  else afterUnlock.push(fn);
 }

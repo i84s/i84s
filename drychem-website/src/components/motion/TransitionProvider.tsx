@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 import { markPageRevealed, resetPageRevealed } from "@/lib/reveal";
-import { lockScroll, scrollToTarget } from "@/lib/scroll";
+import { lockScroll, scrollToTarget, whenUnlocked } from "@/lib/scroll";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import styles from "./TransitionProvider.module.css";
 
@@ -35,12 +35,9 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     (href: string, label?: string) => {
       const url = new URL(href, window.location.href);
       if (normalize(url.pathname) === normalize(window.location.pathname)) {
-        if (url.hash) {
-          scrollToTarget(url.hash);
-          window.history.replaceState(window.history.state, "", url.hash);
-        } else {
-          scrollToTarget(0);
-        }
+        // Wait for the menu (if open) to release its scroll lock, or the scroll is cancelled.
+        whenUnlocked(() => scrollToTarget(url.hash || 0));
+        if (url.hash) window.history.replaceState(window.history.state, "", url.hash);
         return;
       }
       if (flight.current.active) return;
